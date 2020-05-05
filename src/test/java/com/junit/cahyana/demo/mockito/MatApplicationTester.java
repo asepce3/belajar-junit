@@ -7,8 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 // @RunWith attaches a runner with the test class to initialize the test data
 @RunWith(MockitoJUnitRunner.class)
@@ -29,7 +28,8 @@ public class MatApplicationTester {
 
         // test the add functionality
         TestCase.assertEquals(mathApplication.add(10.0, 20.0), 60.0);
-        verify(calculatorService).add(10.0, 20.0);
+        // limit the method call to 1, no less and no more calls are allowed
+        verify(calculatorService, times(1)).add(10.0, 20.0);
     }
 
     @Test
