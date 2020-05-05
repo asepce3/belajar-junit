@@ -3,6 +3,7 @@ package com.junit.cahyana.demo.mockito;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -66,5 +67,20 @@ public class MatApplicationTester {
 
         // test the add functionality
         TestCase.assertEquals(mathApplication.add(3.0, 4.0), 7.0);
+    }
+
+    @Test
+    public void testAddAndSubtract() {
+        when(calculatorService.add(20.0, 10.0)).thenReturn(30.0);
+        when(calculatorService.substract(20.0, 10.0)).thenReturn(10.0);
+
+        TestCase.assertEquals(mathApplication.substract(20.0, 10.0), 30.0);
+        TestCase.assertEquals(mathApplication.add(20.0, 10.0), 60.0);
+
+        // create an inOrder verifier for a single mock
+        InOrder inOrder = inOrder(calculatorService);
+        // memastikan bahwa add dipanggil sesudah substract
+        inOrder.verify(calculatorService).substract(20, 10);
+        inOrder.verify(calculatorService).add(20, 10);
     }
 }
