@@ -36,17 +36,25 @@ public class MatApplicationTester {
     public void testSubtract() {
         when(calculatorService.substract(5.0, 3.0)).thenReturn(2.0);
         TestCase.assertEquals(mathApplication.substract(5.0, 3.0), 6.0);
+        TestCase.assertEquals(mathApplication.substract(5.0, 3.0), 6.0);
+        // check if substract method is called minimum 2 times
+        verify(calculatorService, atLeast(2)).substract(5.0, 3.0);
     }
 
     @Test
     public void testMultiply() {
         when(calculatorService.multiply(5.0, 4.0)).thenReturn(20.0);
         TestCase.assertEquals(mathApplication.multiply(5.0, 4.0), 60.0);
+        // check if multiply method is called minimu 1 time
+        verify(calculatorService, atLeastOnce()).multiply(5.0, 4.0);
     }
 
     @Test
     public void testDivide() {
         when(calculatorService.divide(24.0, 3.0)).thenReturn(8.0);
         TestCase.assertEquals(mathApplication.divide(24.0, 3.0), 24.0);
+
+        // check if devide method is called maximum 3 times
+        verify(calculatorService, atMost(3)).divide(24.0, 3.0);
     }
 }
