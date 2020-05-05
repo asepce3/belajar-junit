@@ -57,4 +57,14 @@ public class MatApplicationTester {
         // check if devide method is called maximum 3 times
         verify(calculatorService, atMost(3)).divide(24.0, 3.0);
     }
+
+    @Test
+    public void testAddException() {
+        // add the behavior to throw exception
+        doThrow(new RuntimeException("Add operation not implemented"))
+                .when(calculatorService).add(3.0, 4.0);
+
+        // test the add functionality
+        TestCase.assertEquals(mathApplication.add(3.0, 4.0), 7.0);
+    }
 }
