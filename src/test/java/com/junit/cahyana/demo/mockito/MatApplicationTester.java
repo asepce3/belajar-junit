@@ -6,7 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
 
@@ -82,5 +84,24 @@ public class MatApplicationTester {
         // memastikan bahwa add dipanggil sesudah substract
         inOrder.verify(calculatorService).substract(20, 10);
         inOrder.verify(calculatorService).add(20, 10);
+    }
+
+    @Test
+    public void testCallback() {
+        when(calculatorService.add(3.0, 2.0)).thenAnswer(new Answer<Double>() {
+            @Override
+            public Double answer(InvocationOnMock invocationOnMock) throws Throwable {
+                double d = 0.0;
+                Object[] objects = invocationOnMock.getArguments();
+                for (Object o : objects) {
+                    d += (double) o;
+                }
+
+                Object mock = invocationOnMock.getMock();
+                return d;
+            }
+        });
+
+        TestCase.assertEquals(mathApplication.add(3.0, 2.0), 10.0);
     }
 }
