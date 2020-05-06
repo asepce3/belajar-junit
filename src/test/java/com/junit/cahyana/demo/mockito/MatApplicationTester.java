@@ -101,7 +101,9 @@ public class MatApplicationTester {
                 return d;
             }
         });
+        reset(calculatorService);
 
-        TestCase.assertEquals(mathApplication.add(3.0, 2.0), 10.0);
+        // test ini akan gagal, karena mock sudah di reset
+        //TestCase.assertEquals(mathApplication.add(3.0, 2.0), 10.0);
     }
 }
