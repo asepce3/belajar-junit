@@ -106,4 +106,17 @@ public class MatApplicationTester {
         // test ini akan gagal, karena mock sudah di reset
         //TestCase.assertEquals(mathApplication.add(3.0, 2.0), 10.0);
     }
+
+    @Test
+    public void testTimeOut() {
+        when(calculatorService.add(2.0, 3.0)).thenReturn(5.0);
+        when(calculatorService.substract(3.0, 1.0)).thenReturn(2.0);
+
+        TestCase.assertEquals(mathApplication.add(2.0, 3.0), 10.0);
+        TestCase.assertEquals(mathApplication.substract(3.0, 1.0), 6.0);
+
+        // verify call to add method to be completed within 100ms
+        verify(calculatorService, timeout(100)).add(2.0, 3.0);
+        verify(calculatorService, timeout(100).atLeastOnce()).substract(3.0, 1.0);
+    }
 }
